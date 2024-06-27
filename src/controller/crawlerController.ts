@@ -7,10 +7,8 @@ import { crawlerService } from "../service/crawler";
   try {
     const processInfo = await crawlerService(id);
 
-    return res.status(200).json({message: processInfo});
+    return res.status(200).json({processInfo});
   } catch (error: any) {
     return res.status(500).json({error: 'no process found with this id'});
   }
-    
-  return
 };
