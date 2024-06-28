@@ -10,20 +10,17 @@ export const crawlerService = async (id: string) => {
     await page.goto(url, { waitUntil: "domcontentloaded" });
 
     const title = await page.title();
-    console.log("Título da página:", title);
 
     const inputSelector =
       "#fPP\\:numProcesso-inputNumeroProcessoDecoration\\:numProcesso-inputNumeroProcesso";
     const input = await page.waitForSelector(inputSelector);
 
     await page.locator(inputSelector).fill(id);
-    console.log("ID do processo:", id);
 
     await page.waitForSelector("#fPP\\:searchProcessos");
 
     await page.click("#fPP\\:searchProcessos");
 
-    console.log('Botão "Pesquisar" clicado!');
 
     const button = await page.waitForSelector(
       'a.btn.btn-default.btn-sm[title="Ver Detalhes"]'
@@ -65,14 +62,13 @@ export const crawlerService = async (id: string) => {
       const assuntoElement = generalInfo.querySelector('#j_id134\\:processoTrfViewView\\:j_id174 .value');
       const jurisdiçãoElement = generalInfo.querySelector('#j_id134\\:processoTrfViewView\\:j_id187 .value');
       const orgaoJulgadorElement = generalInfo.querySelector('#j_id134\\:processoTrfViewView\\:j_id211 .value');
-      const table = activeParts.querySelector('table.rich-table');
+      const table = activeParts.querySelector('#j_id134\\:j_id266');
 
       const partesAtivas = [];
 
       if (table) {
         const rows = table.querySelectorAll('tbody > tr');
         rows.forEach((row:any) => {
-          console.log('achou');
           const nomeParte = row.querySelector('.rich-table-cell:nth-child(1)').textContent.trim();
           const situacaoParte = row.querySelector('.rich-table-cell:nth-child(2)').textContent.trim();
           
@@ -93,9 +89,7 @@ export const crawlerService = async (id: string) => {
         orgaoJulgador: orgaoJulgadorElement?.textContent?.trim(),
       };
     });
-
-    console.log('Informações extraídas:', info);
-    
+        
     const result = {
       numeroProcesso: info?.numeroProcesso,
         dataDistribuicao: info?.dataDistribuicao,
